@@ -51,3 +51,6 @@ build-iPhoneSimulator/
 
 # JetBrains editors (RubyMine)
 /.idea/
+
+# byebug history
+.byebug_history
