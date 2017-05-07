@@ -63,8 +63,11 @@ class Allocation
             sub_allocation[i][meeting_duration] += 1
 
             # Yield all sub-allocations of this m
-            Allocation.new(@constraints, sub_allocation).sub_allocations.each do |sub_allocation|
-              y << sub_allocation
+            sub_allocation = Allocation.new(@constraints, sub_allocation)
+            if sub_allocation.feasible?
+              sub_allocation.sub_allocations.each do |sub_allocation|
+                y << sub_allocation
+              end
             end
           end
         end
@@ -74,7 +77,9 @@ class Allocation
 
   # Override standard method for conversion to String (e.g. when printing)
   def to_s
-    @allocation.to_s
+    @allocation.map.with_index do |time_slot_usage, i|
+      "#{time_slot_usage} (#{time_slot_usage.map{ |k,v| k*v }.sum}/#{@constraints.time_slots[i]})"
+    end.join(', ')
   end
 
   # Override standard method to determine equality with another object
