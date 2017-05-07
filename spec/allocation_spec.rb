@@ -2,12 +2,11 @@ require 'allocation'
 
 describe Allocation do
   let(:constraints) { Constraints.new }
+  let(:allocation) do
+    Allocation.new(constraints, [{}, {}, {}, {}])
+  end
 
   context "empty allocation" do
-    let(:allocation) do
-      Allocation.new(constraints, [{}, {}, {}, {}])
-    end
-
     it "is feasible" do
       expect(allocation).to be_feasible
     end
@@ -54,6 +53,26 @@ describe Allocation do
 
     it "is complete" do
       expect(allocation).to be_complete
+    end
+  end
+
+  describe "sub allocations" do
+    it "returns an enumerator" do
+      expect(allocation.sub_allocations).to be_a Enumerator
+    end
+
+    it "generates 12 sub allocations" do
+      expect(allocation.sub_allocations.take(3).length).to eq 3
+    end
+
+    it "yields allocations" do
+      expect(allocation.sub_allocations.take(3)).to all be_a Allocation
+    end
+
+    context "small test" do
+      let(:constraints) do
+        Constraints.new [60, 90], {30 => 1, 45 => 1, 60 => 1}
+      end
     end
   end
 end

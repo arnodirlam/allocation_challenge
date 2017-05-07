@@ -1,5 +1,8 @@
-require 'scheduler'
+require_relative 'lib/scheduler'
 
 scheduler = Scheduler.new
 
-puts scheduler.allocations.lazy.first
+puts "Starting at #{Time.now.strftime('%H:%M:%S')}..."
+scheduler.allocations.select(&:feasible?).each do |allocation|
+  puts "[#{Time.now.strftime('%H:%M:%S')}] #{allocation}"
+end

@@ -1,13 +1,13 @@
-require 'constraints'
-require 'allocation'
+require_relative 'constraints'
+require_relative 'allocation'
 
 # Represents the entry point to the algorithm (see `README`).
 # Initialize with a `Constraints` object and call `allocations` to get one (or multiple) feasible and complete allocations
 class Scheduler
   attr_reader :constraints
 
-  def initialize
-    @constraints = Constraints.new
+  def initialize(constraints=Constraints.new)
+    @constraints = constraints
   end
 
   # Return feasible and complete allocations
