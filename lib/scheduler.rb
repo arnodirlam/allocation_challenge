@@ -12,7 +12,7 @@ class Scheduler
 
   # Return feasible and complete allocations
   def allocations
-    root_allocation = constraints.time_slots.map do |time_slot_duration|
+    root_allocation = constraints.time_slots.map do |_|
       {}
     end
 

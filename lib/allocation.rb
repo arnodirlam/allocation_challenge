@@ -35,7 +35,7 @@ class Allocation
 
   # Returns how many meetings of each duration are not allocated
   def remaining_meetings
-    remaining_meetings = @constraints.meetings.dup
+    remaining_meetings = @constraints.meeting_durations.dup
     @allocation.each do |time_slot_hash|
       time_slot_hash.each do |k,v|
         remaining_meetings[k] -= v
@@ -85,5 +85,59 @@ class Allocation
   # Override standard method to determine equality with another object
   def eql?(other)
     @allocation.eql? other.allocation
+  end
+
+  # Override standard method to hash the object for `Hash` assignment (and uniqueness)
+  def hash
+    @allocation.hash
+  end
+
+  # Used to print an actual example schedule with the given names of meeting
+  # rooms and meetings
+  def print_example_schedule(meeting_rooms, meetings)
+    used_allocations = @constraints.time_slots.map{ |_| false }
+    remaining_meetings = meetings.dup
+
+    meeting_rooms.each do |meeting_room|
+      puts "", meeting_room.name
+
+      # MeetingRoom#time_slots can include `Meeting` objects (for fixed meetings)
+      # and `TimeSlot` objects
+      meeting_room.time_slots.each do |time_slot|
+        if time_slot.is_a? Meeting
+          puts time_slot
+          next
+        end
+
+        # We have a `TimeSlot` object. Pick an allocation with the same duration
+        # and then meetings for it to print them...
+        used_allocations.each_with_index do |used,i|
+          next if used
+          if time_slot.duration_in_minutes == @constraints.time_slots[i]
+
+            # found one! Now get some meetings of given durations to print them
+            time_slot_meetings = []
+            @allocation[i].each do |duration,count|
+              count.times do
+                meeting = remaining_meetings.detect{ |meeting| meeting.duration_in_minutes == duration }
+                time_slot_meetings << meeting
+                remaining_meetings.delete meeting
+              end
+            end
+
+            # Shuffle the found meetings, calculate start times, and print them
+            start_time = Time.new(2000,1,1,time_slot.starts_at.to_i,0)
+            time_slot_meetings.shuffle.each do |meeting|
+              puts "#{start_time.strftime("%H:%M")} #{meeting}"
+              start_time += meeting.duration_in_minutes * 60
+            end
+
+            # Mark this allocation as used and carry on
+            used_allocations[i] = true
+            break
+          end
+        end
+      end
+    end
   end
 end

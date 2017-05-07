@@ -14,6 +14,12 @@ Code challenge to determine feasible meeting room schedules
   bundle
   ```
 
+## Usage
+
+To get an example schedule, run `ruby allocate.rb`.
+
+To run the tests: `rspec`.
+
 ## Task
 
 You are in charge of assigning meeting rooms at your company. Especially many meetings
@@ -164,3 +170,4 @@ i.e. the algorithm and methods to navigate the solution space. Finally, I will c
 - The `Allocation` class represents (partial) allocations and can check their feasibility.
 - The `Scheduler` represents an allocation problem and holds its requirements. It can yield an arbitrary number
   of feasible allocations.
+- `MeetingRoom`, `Meeting` and `TimeSlot` are merely for displaying final example schedules to the user.

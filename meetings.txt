@@ -1,0 +1,18 @@
+All Hands meeting 60min
+Marketing presentation 30min
+Product team sync 30min
+Ruby vs Go presentation 45min
+New app design presentation 45min
+Customer support sync 30min
+Front-end coding interview 60min
+Skype Interview A 30min
+Skype Interview B 30min
+Project Bananaphone Kickoff 45min
+Developer talk 60min
+API Architecture planning 45min
+Android app presentation 45min
+Back-end coding interview A 60min
+Back-end coding interview B 60min
+Back-end coding interview C 60min
+Sprint planning 45min
+New marketing campaign presentation 30min

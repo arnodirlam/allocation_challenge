@@ -1,7 +1,7 @@
 require 'allocation'
 
 describe Allocation do
-  let(:constraints) { Constraints.new }
+  let(:constraints) { Constraints.new([3*60, 3*60, 4*60, 4*60], {30 => 6, 45 => 6, 60 => 6}) }
   let(:allocation) do
     Allocation.new(constraints, [{}, {}, {}, {}])
   end
